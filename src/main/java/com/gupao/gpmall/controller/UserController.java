@@ -2,8 +2,10 @@ package com.gupao.gpmall.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.gupao.gpmall.api.IUserService;
+import com.gupao.gpmall.api.dto.CheckAuthRequest;
 import com.gupao.gpmall.api.dto.UserLoginRequest;
 import com.gupao.gpmall.api.dto.common.Result;
+import com.gupao.gpmall.dto.AuthRequest;
 import com.gupao.gpmall.dto.LoginRequest;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,6 +28,13 @@ public class UserController {
         request.setUserName(req.getUserName());
         request.setPassword(req.getPassword());
         return userService.userLogin(request);
+    }
+
+    @PostMapping("/auth")
+    public Result auth(@RequestBody AuthRequest req){
+        CheckAuthRequest request = new CheckAuthRequest();
+        request.setToken(req.getToken());
+        return Result.success(userService.validToken(request));
     }
 
 
